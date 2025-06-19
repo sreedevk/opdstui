@@ -41,35 +41,9 @@ proc setupDisplayBuffer*(e: var App) =
   e.buffer.drawHorizLine(2, e.tw - 3, yoffset + 1, doubleStyle = true)
   e.buffer.write(2, yoffset + 2, "OPDS TUI")
   e.buffer.drawHorizLine(2, e.tw - 3, yoffset + 3, doubleStyle = true)
-  e.buffer.write(
-    2, yoffset + 4, fgWhite, "Press ", fgYellow, "Enter", fgWhite, " to select an item."
-  )
-  e.buffer.write(
-    2,
-    yoffset + 5,
-    "Press ",
-    fgYellow,
-    "ESC",
-    fgWhite,
-    " or ",
-    fgYellow,
-    "Q",
-    fgWhite,
-    " to quit",
-  )
-  e.buffer.write(
-    2,
-    yoffset + 6,
-    "Press ",
-    fgYellow,
-    "N",
-    fgWhite,
-    " or ",
-    fgYellow,
-    "P",
-    fgWhite,
-    " to paginate to the next or previous page.",
-  )
+  e.buffer.write(2, yoffset + 4, fgWhite, "Press ", fgYellow, "Enter", fgWhite, " to select an item.")
+  e.buffer.write(2, yoffset + 5, "Press ", fgYellow, "ESC", fgWhite, " or ", fgYellow, "Q", fgWhite, " to quit or navigate back to the previous page")
+  e.buffer.write(2, yoffset + 6, "Press ", fgYellow, "N", fgWhite, " or ", fgYellow, "P", fgWhite, " to paginate to the next or previous page.")
   e.buffer.drawHorizLine(2, e.tw - 3, yoffset + 7, doubleStyle = true)
 
 proc handleUserInput(e: var App) =
@@ -108,7 +82,7 @@ proc handleUserInput(e: var App) =
       e.session.navigateTo(centry.url)
     of LinkType.Media:
       let content = e.session.loadFile(centry.url)
-      let zathproc = "zathura --fork -"
+      let zathproc = "zathura --fork - --"
       discard execCmdEx(zathproc, input = content)
       exitProc()
   else:
