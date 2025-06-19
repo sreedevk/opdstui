@@ -24,7 +24,6 @@ proc pageNav(e: var Session, backward: bool) =
     cpage = e.pages[^1]
     newPageNum: int
 
-  # TODO: REFACTOR THIS GARBAGE
   if cpage.canPaginate:
     if backward and cpage.pageNum > 0:
       newPageNum = cpage.pageNum - 1

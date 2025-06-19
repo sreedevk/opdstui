@@ -42,8 +42,6 @@ proc checkCanPaginate(content: XmlNode): bool =
 
     return tres > ipp
     
-
-
 proc newPage*(content: XmlNode, path: string): Page =
   new(result)
   result.title = content.child("title").innerText
