@@ -2,6 +2,7 @@ import page
 import std/uri
 import std/httpclient
 import std/xmlparser
+import std/xmltree
 import std/options
 
 type Session* = ref object of RootObj
@@ -11,14 +12,40 @@ type Session* = ref object of RootObj
 proc generateBaseUrl(r: Uri): Uri =
   return parseUri(r.scheme & "://" & r.hostname & ":" & r.port)
 
-proc navigateTo*(e: var Session, path: string) =
+proc loadContent(e: var Session, path: string, query: openArray[(string, string)] = []): XmlNode = 
   var client = newHttpClient()
   defer:
     client.close()
-  let content = client.getContent(e.opdsUrl / path)
-  let parsedContent = parseXml(content)
+  let content = client.getContent(e.opdsUrl / path ? query)
+  return parseXml(content)
 
-  e.pages.add(newPage(parsedContent))
+proc pageNav(e: var Session, backward: bool) =
+  var 
+    cpage = e.pages[^1]
+    newPageNum: int
+
+  # TODO: REFACTOR THIS GARBAGE
+  if cpage.canPaginate:
+    if backward and cpage.pageNum > 0:
+      newPageNum = cpage.pageNum - 1
+    else:
+      newPageNum = cpage.pageNum + 1
+
+    let parsedContent = 
+      loadContent(e, cpage.pagePath, { "pageNumber": $newPageNum })
+
+    if parsedContent.findAll("entry").len() > 1:
+      cpage.pageNum = newPageNum
+      cpage.updateEntries(parsedContent)
+
+proc nextPage*(e: var Session) =
+  pageNav(e, backward = false)
+  
+proc prevPage*(e: var Session) =
+  pageNav(e, backward = true)
+
+proc navigateTo*(e: var Session, path: string) =
+  e.pages.add(newPage(loadContent(e, path), path))
 
 proc navigateBack*(e: var Session) =
   if len(e.pages) > 0:

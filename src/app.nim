@@ -58,6 +58,10 @@ proc handleUserInput(e: var App) =
       cpage.entryPtr = len(cpage.entries) - 1
   of Key.G:
       cpage.entryPtr = 0
+  of Key.N:
+      e.session.nextPage()
+  of Key.P:
+      e.session.prevPage()
   of Key.Up, Key.K:
     if cpage.entryPtr > 0:
       cpage.entryPtr -= 1
