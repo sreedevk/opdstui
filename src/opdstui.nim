@@ -2,8 +2,6 @@ import configuration
 import app
 import clapfn, tables, strutils
 
-const doc: string = staticRead("../doc/readme.txt")
-
 proc parseArgs(): Table[string, string] = 
   var parser = ArgumentParser(
     programName: "opdstui",
