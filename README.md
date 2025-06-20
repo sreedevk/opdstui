@@ -12,8 +12,13 @@ This project is hosted on
 - [Radicle](https://radicle.xyz/) - `rad:z4QBXcbUuZuJKkN57ysdWbr5iGGZK`
 
 ## Pre Requisites
+#### Runtime Dependencies
 1. [zathura](https://pwmt.org/projects/zathura/)
 2. [An OPDS Source](https://opds.io/)
+
+#### Build Dependencies
+1. [Nim Compiler](https://nim-lang.org/)
+2. [GNU Make](https://www.gnu.org/software/make/)
 
 ## Caveats
 I consider this tool feature complete for my own use and any development would just be small improvements to the tool.
@@ -22,7 +27,17 @@ Please refer to the [TODO](#todo) section on this page to make sure you're not r
 As always, pull requests are welcome, but please open an issue before you start working.
 
 ## Installation
+### Build From Source
 ```bash
+# clone the repository from radicle
+rad clone rad:z4QBXcbUuZuJKkN57ysdWbr5iGGZK
+
+# or clone the repository from github
+git clone https://github.com/sreedev/opdstui
+
+# cd into opdstui directory
+cd opdstui
+
 # run make to ensure that you're able to build the tool first
 make 
 
@@ -70,4 +85,5 @@ opdstui
 ## TODO
 1. \[BUG\] Graceful exit after zathura process has been kicked off
 2. \[BUG\] List Overflows the UI boundary
+3. \[IMPROVE\] Write Unit Tests
 
