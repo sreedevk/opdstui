@@ -8,12 +8,19 @@ I was unable to find a tool that quite did this, so I decided to write one mysel
 1. [zathura](https://pwmt.org/projects/zathura/)
 
 ## Caveats
-I consider this tool feature complete for my own use and any development would just be slight improvements to the tool.
-But if things don't work as expected for you, feel free to open an issue, I'll try and fix / improve things. As always, pull requests are welcome, but please open an issue before you start working.
+I consider this tool feature complete for my own use and any development would just be small improvements to the tool.
+But if things don't work as expected for you, feel free to open an issue, I'll try and fix / improve things.
+Please refer to the [TODO](#todo) section on this page to make sure you're not reporting already known issues.
+As always, pull requests are welcome, but please open an issue before you start working.
 
-## TODO
-1. \[BUG\] Graceful exit after zathura process has been kicked off
-2. \[BUG\] List Overflows the UI boundary
+## Installation
+```bash
+# run make to ensure that you're able to build the tool first
+make 
+
+# copy the binary to /usr/local/bin
+sudo make install
+```
 
 ## Usage
 
@@ -51,3 +58,8 @@ opdstui -u="https://kavita.selfhosted.something/opds/not-accidentally-leaking-my
 ```bash
 opdstui
 ```
+
+## TODO
+1. \[BUG\] Graceful exit after zathura process has been kicked off
+2. \[BUG\] List Overflows the UI boundary
+
