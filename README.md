@@ -12,7 +12,8 @@ I consider this tool feature complete for my own use and any development would j
 But if things don't work as expected for you, feel free to open an issue, I'll try and fix / improve things. As always, pull requests are welcome, but please open an issue before you start working.
 
 ## TODO
-1. Graceful exit after zathura process has been kicked off
+1. \[BUG\] Graceful exit after zathura process has been kicked off
+2. \[BUG\] List Overflows the UI boundary
 
 ## Usage
 
