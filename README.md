@@ -17,14 +17,36 @@ But if things don't work as expected for you, feel free to open an issue, I'll t
 ## Usage
 
 ```
-opdstui - Tui Interface to Browser OPDS Catalogs
+OPDS TUI Browser v0.1.0
+Author: Sreedev Kodichath <sreedev@icloud.com>
+OPDS Feed TUI Browser
 
-Usage:
-  opdstui open <url>
-  opdstui configure
+Usage: opdstui [-h] [-v] [-c=configfile] [-u=opdsurl] [-g]
 
-Options:
-  -h --help                   Show this screen  
-  --version                   Show version
-  --config=<path>             Load json config from path [default: "$XDG_CONFIG_DIR/opdstui/config.json"]
+Required arguments:
+
+
+Optional arguments:
+    -h, --help                          Show this help message and exit.
+    -v, --version                       Show version number and exit.
+    -c=configfile, --config=configfile  configuration file
+    -u=opdsurl, --url=opdsurl           opds url
+    -g, --generate-conf                 generate & store configuration
+```
+
+## Examples
+
+### Persist the options passed, in a configuration file for reuse
+```bash
+opdstui -g -u="https://kavita.selfhosted.something/opds/not-accidentally-leaking-my-key-again/"
+```
+
+### Launch OPDS TUI using a url other than the configured url
+```bash
+opdstui -u="https://kavita.selfhosted.something/opds/not-accidentally-leaking-my-key-again/"
+```
+
+### Launch OPDS TUI with the url and options in configuration
+```bash
+opdstui
 ```
