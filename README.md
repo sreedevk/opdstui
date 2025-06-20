@@ -1,11 +1,19 @@
 # TUI OPDS Browser
 ## Introduction
-I wanted a way to browser my E-Book library hosted on [kavita](https://www.kavitareader.com/) via a TUI interface and
-read the books using [zathura](https://pwmt.org/projects/zathura/), thus eliminating the need to interact with the kavita web interface. 
-I was unable to find a tool that quite did this, so I decided to write one myself.
+I wanted a way to browse my E-Book library hosted on self-hosted instance of [kavita](https://www.kavitareader.com/) via a TUI interface and
+read the books using [zathura](https://pwmt.org/projects/zathura/), thus eliminating the need to download books from kavita web interface before being able to read them
+using zathura. I couldn't find a tool that offered a TUI interface to browser OPDS catalogs, so i decided to write one myself.
+
+This project does not aim to implement the whole [OPDS specification](https://opds.io/).
+
+## Sources
+This project is hosted on
+- [Github](https://github.com/sreedevk/opdstui) - [sreedevk/opdstui](https://github.com/sreedevk/opdstui)
+- [Radicle](https://radicle.xyz/) - `rad:z4QBXcbUuZuJKkN57ysdWbr5iGGZK`
 
 ## Pre Requisites
 1. [zathura](https://pwmt.org/projects/zathura/)
+2. [An OPDS Source](https://opds.io/)
 
 ## Caveats
 I consider this tool feature complete for my own use and any development would just be small improvements to the tool.
