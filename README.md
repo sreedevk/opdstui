@@ -86,4 +86,4 @@ opdstui
 1. \[BUG\] Graceful exit after zathura process has been kicked off
 2. \[BUG\] List Overflows the UI boundary
 3. \[IMPROVE\] Write Unit Tests
-
+3. \[FEAT\] Add a Search Filter
