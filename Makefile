@@ -1,16 +1,21 @@
-.PHONY: all run clean install release
+.PHONY: all dev install uninstall clean
 
-all:
-	nimble build -d:ssl --threads:on
+all: bin/opdstui
+dev:
+	rm -rf bin/opdstui_dev
+	nimble dev
 
-release:
-	nimble build -d:release -d:ssl --threads:on
+bin/opdstui:
+	nimble prod
 
-install:
-	nimble install -d:release -d:ssl --threads:on 
+install: bin/opdstui
+	mkdir -p /usr/local/bin
+	cp -f bin/opdstui /usr/local/bin/
+	chmod 755 /usr/local/bin/opdstui
 
-run: all
-	./bin/opdstui
+uninstall:
+	rm -rf /usr/local/bin/opdstui
 
 clean:
-	nimble clean
+	rm -rf bin/opdstui
+	rm -rf bin/opdstui_dev
