@@ -12,3 +12,5 @@ bin = @["opdstui"]
 requires "nim >= 2.2.4"
 requires "illwill >= 0.4.1"
 requires "docopt >= 0.7.1"
+
+requires "jsony >= 1.1.5"
