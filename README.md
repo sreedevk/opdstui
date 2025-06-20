@@ -48,7 +48,7 @@ sudo make install
 ## Usage
 
 ```
-OPDS TUI Browser v0.1.0
+OPDS TUI Browser v0.1.1
 Author: Sreedev Kodichath <sreedev@icloud.com>
 OPDS Feed TUI Browser
 
