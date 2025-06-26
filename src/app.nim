@@ -2,6 +2,7 @@ import session, link, osproc, os
 import configuration
 import illwill
 import illwillWidgets
+import strutils
 
 type AppMode* = enum
   Search
@@ -13,6 +14,7 @@ type App* = ref object of RootObj
   tw*: int
   th*: int
   mode*: AppMode
+  inputField: string
 
 proc exitProc() {.noconv.} =
   illwillDeinit()
@@ -36,6 +38,7 @@ proc newApp*(config: Configuration): App =
   result.tw = tw
   result.th = th
   result.mode = AppMode.Browse
+  result.inputField = ""
 
 proc setupDisplayBuffer*(e: var App) =
   var yoffset = 0
@@ -51,7 +54,10 @@ proc setupDisplayBuffer*(e: var App) =
   e.buffer.write(2, yoffset + 4, fgWhite, "Press ", fgYellow, "Enter", fgWhite, " to select an item.")
   e.buffer.write(2, yoffset + 5, "Press ", fgYellow, "ESC", fgWhite, " or ", fgYellow, "Q", fgWhite, " to quit or navigate back to the previous page")
   e.buffer.write(2, yoffset + 6, "Press ", fgYellow, "N", fgWhite, " or ", fgYellow, "P", fgWhite, " to paginate to the next or previous page.")
-  e.buffer.drawHorizLine(2, e.tw - 3, yoffset + 7, doubleStyle = true)
+  if e.session.pages[^1].canSearch:
+    e.buffer.write(2, yoffset + 7, "Press ", fgYellow, "/", fgWhite, " to search")
+
+  e.buffer.drawHorizLine(2, e.tw - 3, yoffset + 8, doubleStyle = true)
 
 proc handleUserInputBrowseMode(e: var App) =
   var
@@ -79,6 +85,7 @@ proc handleUserInputBrowseMode(e: var App) =
     e.session.prevPage()
   of Key.Slash:
     if cpage.canSearch:
+      e.inputField = ""
       e.mode = AppMode.Search
     else:
       discard
@@ -106,12 +113,22 @@ proc handleUserInputSearchMode(e: var App) =
     cpage = e.session.pages[^1]
 
   case key
-  of Key.Escape, Key.Q:
+  of Key.Escape:
     e.mode = AppMode.Browse
-  else:
+  of Key.None, Key.Slash:
     discard
+  of Key.Space:
+    e.inputField = e.inputField & " "
+  of Key.Backspace:
+    var inplen = e.inputField.len()
+    if inplen > 0:
+      e.inputField = e.inputField[0..^2]
+    else:
+      discard
+  else:
+    if ord(key) in 48..90:
+      e.inputField = e.inputField & $key
   
-
 proc handleUserInput(e: var App) =
   case e.mode
   of AppMode.Browse:
@@ -122,7 +139,7 @@ proc handleUserInput(e: var App) =
 proc renderSessionBrowseMode(e: var App) =
   var
     cpage = e.session.pages[^1]
-    yoffset = 7
+    yoffset = 8
 
   e.buffer.write(
     2, yoffset + 1, resetStyle, "Title: ", fgGreen, cpage.title, resetStyle
@@ -142,8 +159,8 @@ proc updateWindowVars(e: var App) =
 proc renderSessionSearchMode(e: var App) =
   var 
     cpage = e.session.pages[^1]
-    yoffset = 7
-    new_tb = newTextBox("", 2, yoffset + 3, w = e.tw, color = fgBlack, bgcolor = bgNone, placeholder="Some Term")
+    yoffset = 8
+    new_tb = newTextBox(e.inputField, 2, yoffset + 3, w = e.tw, color = fgBlack, bgcolor = bgNone, placeholder="Some Term")
 
   e.buffer.render(new_tb)
 
@@ -153,7 +170,6 @@ proc renderSession(e: var App) =
     e.renderSessionBrowseMode()
   of AppMode.Search:
     e.renderSessionSearchMode()
-    discard
 
 proc start*(e: var App) =
   while true:
