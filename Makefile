@@ -2,7 +2,6 @@
 
 all: bin/opdstui
 dev:
-	rm -rf bin/opdstui_dev
 	nimble dev
 
 bin/opdstui:

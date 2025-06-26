@@ -2,11 +2,16 @@ import session, link, osproc, os
 import configuration
 import illwill
 
+type AppMode* = enum
+  Search
+  Browse
+
 type App* = ref object of RootObj
   buffer*: TerminalBuffer
   session*: Session
   tw*: int
   th*: int
+  mode*: AppMode
 
 proc exitProc() {.noconv.} =
   illwillDeinit()
@@ -29,6 +34,7 @@ proc newApp*(config: Configuration): App =
   result.session = newSession(config.initialUrl)
   result.tw = tw
   result.th = th
+  result.mode = AppMode.Browse
 
 proc setupDisplayBuffer*(e: var App) =
   var yoffset = 0
@@ -46,7 +52,7 @@ proc setupDisplayBuffer*(e: var App) =
   e.buffer.write(2, yoffset + 6, "Press ", fgYellow, "N", fgWhite, " or ", fgYellow, "P", fgWhite, " to paginate to the next or previous page.")
   e.buffer.drawHorizLine(2, e.tw - 3, yoffset + 7, doubleStyle = true)
 
-proc handleUserInput(e: var App) =
+proc handleUserInputBrowseMode(e: var App) =
   var
     key = getKey()
     cpage = e.session.pages[^1]
@@ -86,6 +92,13 @@ proc handleUserInput(e: var App) =
       discard execCmdEx(zathproc, input = content)
       exitProc()
   else:
+    discard
+
+proc handleUserInput(e: var App) =
+  case e.mode
+  of AppMode.Browse:
+    e.handleUserInputBrowseMode()
+  of AppMode.Search:
     discard
 
 proc renderSession(e: var App) =
