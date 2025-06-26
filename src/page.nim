@@ -9,6 +9,8 @@ type Page* = ref object of RootObj
   pageNum*: int
   pagePath*: string
   canPaginate*: bool
+  canSearch*: bool
+  searchPath*: Link
 
 proc updateEntries*(e: var Page, content: XmlNode) = 
   e.entries = @[]
@@ -16,12 +18,14 @@ proc updateEntries*(e: var Page, content: XmlNode) =
   if contentEntries.len() >= 1:
     for entry in contentEntries:
       for clink in entry.findAll("link"):
-        if clink.attr("rel") == "subsection":
-          let parsedLink = newLink(entry.child("title").innerText, clink.attr("href"), LinkType.Navigation)
-          e.entries.add(parsedLink)
-        elif clink.attr("rel") == "http://opds-spec.org/acquisition/open-access":
-          let parsedLink = newLink(entry.child("title").innerText, clink.attr("href"), LinkType.Media)
-          e.entries.add(parsedLink)
+        case clink.attr("rel")
+        of "subsection":
+          e.entries.add(newLink(entry.child("title").innerText, clink.attr("href"), LinkType.Navigation))
+        of "http://opds-spec.org/acquisition/open-access":
+          e.entries.add(newLink(entry.child("title").innerText, clink.attr("href"), LinkType.Media))
+        of "search":
+          e.canSearch = true
+          e.searchPath = newLink(entry.child("title").innerText, clink.attr("href"), LinkType.Navigation)
         else:
           discard
   else:
@@ -48,6 +52,7 @@ proc newPage*(content: XmlNode, path: string): Page =
   result.entryPtr = 0
   result.pageNum = 1
   result.pagePath = path
-  result.updateEntries(content)
+  result.canSearch = false
   result.canPaginate = checkCanPaginate(content)
+  result.updateEntries(content)
 

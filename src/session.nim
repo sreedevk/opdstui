@@ -31,7 +31,7 @@ proc pageNav(e: var Session, backward: bool) =
       newPageNum = cpage.pageNum + 1
 
     let parsedContent = 
-      loadContent(e, cpage.pagePath, { "pageNumber": $newPageNum })
+      e.loadContent(cpage.pagePath, { "pageNumber": $newPageNum })
 
     if parsedContent.findAll("entry").len() > 1:
       cpage.pageNum = newPageNum
