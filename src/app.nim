@@ -1,6 +1,7 @@
 import session, link, osproc, os
 import configuration
 import illwill
+import illwillWidgets
 
 type AppMode* = enum
   Search
@@ -76,6 +77,11 @@ proc handleUserInputBrowseMode(e: var App) =
     e.session.nextPage()
   of Key.P:
     e.session.prevPage()
+  of Key.Slash:
+    if cpage.canSearch:
+      e.mode = AppMode.Search
+    else:
+      discard
   of Key.Up, Key.K:
     if cpage.entryPtr > 0:
       cpage.entryPtr -= 1
@@ -94,14 +100,26 @@ proc handleUserInputBrowseMode(e: var App) =
   else:
     discard
 
+proc handleUserInputSearchMode(e: var App) = 
+  var
+    key = getKey()
+    cpage = e.session.pages[^1]
+
+  case key
+  of Key.Escape, Key.Q:
+    e.mode = AppMode.Browse
+  else:
+    discard
+  
+
 proc handleUserInput(e: var App) =
   case e.mode
   of AppMode.Browse:
     e.handleUserInputBrowseMode()
   of AppMode.Search:
-    discard
+    e.handleUserInputSearchMode()
 
-proc renderSession(e: var App) =
+proc renderSessionBrowseMode(e: var App) =
   var
     cpage = e.session.pages[^1]
     yoffset = 7
@@ -119,6 +137,23 @@ proc renderSession(e: var App) =
 proc updateWindowVars(e: var App) =
   e.th = terminalHeight()
   e.tw = terminalWidth()
+
+
+proc renderSessionSearchMode(e: var App) =
+  var 
+    cpage = e.session.pages[^1]
+    yoffset = 7
+    new_tb = newTextBox("", 2, yoffset + 3, w = e.tw, color = fgBlack, bgcolor = bgNone, placeholder="Some Term")
+
+  e.buffer.render(new_tb)
+
+proc renderSession(e: var App) = 
+  case e.mode
+  of AppMode.Browse:
+    e.renderSessionBrowseMode()
+  of AppMode.Search:
+    e.renderSessionSearchMode()
+    discard
 
 proc start*(e: var App) =
   while true:

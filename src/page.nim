@@ -15,6 +15,14 @@ type Page* = ref object of RootObj
 proc updateEntries*(e: var Page, content: XmlNode) = 
   e.entries = @[]
   let contentEntries = content.findAll("entry")
+  let navEntries = content.findAll("link")
+  for navlink in navEntries:
+    if navlink.attr("rel") == "search":
+      e.canSearch = true
+      e.searchPath = newLink("search", navlink.attr("href"), LinkType.Navigation)
+    else:
+      discard
+
   if contentEntries.len() >= 1:
     for entry in contentEntries:
       for clink in entry.findAll("link"):
@@ -23,9 +31,6 @@ proc updateEntries*(e: var Page, content: XmlNode) =
           e.entries.add(newLink(entry.child("title").innerText, clink.attr("href"), LinkType.Navigation))
         of "http://opds-spec.org/acquisition/open-access":
           e.entries.add(newLink(entry.child("title").innerText, clink.attr("href"), LinkType.Media))
-        of "search":
-          e.canSearch = true
-          e.searchPath = newLink(entry.child("title").innerText, clink.attr("href"), LinkType.Navigation)
         else:
           discard
   else:
@@ -52,7 +57,6 @@ proc newPage*(content: XmlNode, path: string): Page =
   result.entryPtr = 0
   result.pageNum = 1
   result.pagePath = path
-  result.canSearch = false
   result.canPaginate = checkCanPaginate(content)
   result.updateEntries(content)
 
