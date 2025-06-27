@@ -19,6 +19,7 @@ This project is hosted on
 #### Build Dependencies
 1. [Nim Compiler](https://nim-lang.org/)
 2. [GNU Make](https://www.gnu.org/software/make/)
+3. [Git](https://git-scm.com/)
 
 ## Caveats
 I consider this tool feature complete for my own use and any development would just be small improvements to the tool.
@@ -38,6 +39,9 @@ git clone https://github.com/sreedev/opdstui
 # cd into opdstui directory
 cd opdstui
 
+# (optional) switch to the latest version
+git checkout v0.1.2
+
 # run make to ensure that you're able to build the tool first
 make 
 
@@ -48,7 +52,7 @@ sudo make install
 ## Usage
 
 ```
-OPDS TUI Browser v0.1.1
+OPDS TUI Browser v0.1.2
 Author: Sreedev Kodichath <sreedev@icloud.com>
 OPDS Feed TUI Browser
 
