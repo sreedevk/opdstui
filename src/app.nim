@@ -183,7 +183,6 @@ proc updateWindowVars(e: var App) =
   e.th = terminalHeight()
   e.tw = terminalWidth()
 
-# TODO: IMPROVE SEARCH
 proc renderSessionSearchMode(e: var App) =
   var
     cpage = e.session.pages[^1]
