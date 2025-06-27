@@ -83,7 +83,11 @@ opdstui
 ```
 
 ## TODO
-1. \[BUG\] Graceful exit after zathura process has been kicked off
-2. \[BUG\] List Overflows the UI boundary
-3. \[IMPROVE\] Write Unit Tests
-3. \[FEAT\] Add a Search Filter
+1. [ ] \[BUG\] Graceful exit after zathura process has been kicked off
+2. [ ] \[BUG\] List Overflows the UI boundary
+3. [ ] \[IMPROVE\] Write Unit Tests
+4. [-] \[FEAT\] Add a Search Filter
+    - a. [x] \[FEAT\] Add Search UI
+    - b. [ ] \[FEAT\] Load Search Results Page 
+    - c. [ ] \[IMPROVE\] Make Search Spec Parsing Global to Session not Per Page
+

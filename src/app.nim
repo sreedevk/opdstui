@@ -1,12 +1,19 @@
 import session, link, osproc, os
 import configuration
 import illwill
+import illwillWidgets
+
+type AppMode* = enum
+  Search
+  Browse
 
 type App* = ref object of RootObj
   buffer*: TerminalBuffer
   session*: Session
   tw*: int
   th*: int
+  mode*: AppMode
+  inputField: string
 
 proc exitProc() {.noconv.} =
   illwillDeinit()
@@ -29,6 +36,8 @@ proc newApp*(config: Configuration): App =
   result.session = newSession(config.initialUrl)
   result.tw = tw
   result.th = th
+  result.mode = AppMode.Browse
+  result.inputField = ""
 
 proc setupDisplayBuffer*(e: var App) =
   var yoffset = 0
@@ -41,12 +50,41 @@ proc setupDisplayBuffer*(e: var App) =
   e.buffer.drawHorizLine(2, e.tw - 3, yoffset + 1, doubleStyle = true)
   e.buffer.write(2, yoffset + 2, "OPDS TUI")
   e.buffer.drawHorizLine(2, e.tw - 3, yoffset + 3, doubleStyle = true)
-  e.buffer.write(2, yoffset + 4, fgWhite, "Press ", fgYellow, "Enter", fgWhite, " to select an item.")
-  e.buffer.write(2, yoffset + 5, "Press ", fgYellow, "ESC", fgWhite, " or ", fgYellow, "Q", fgWhite, " to quit or navigate back to the previous page")
-  e.buffer.write(2, yoffset + 6, "Press ", fgYellow, "N", fgWhite, " or ", fgYellow, "P", fgWhite, " to paginate to the next or previous page.")
-  e.buffer.drawHorizLine(2, e.tw - 3, yoffset + 7, doubleStyle = true)
+  e.buffer.write(
+    2, yoffset + 4, fgWhite, "Press ", fgYellow, "Enter", fgWhite, " to select an item."
+  )
+  e.buffer.write(
+    2,
+    yoffset + 5,
+    "Press ",
+    fgYellow,
+    "ESC",
+    fgWhite,
+    " or ",
+    fgYellow,
+    "Q",
+    fgWhite,
+    " to quit or navigate back to the previous page",
+  )
+  e.buffer.write(
+    2,
+    yoffset + 6,
+    "Press ",
+    fgYellow,
+    "N",
+    fgWhite,
+    " or ",
+    fgYellow,
+    "P",
+    fgWhite,
+    " to paginate to the next or previous page.",
+  )
+  if e.session.pages[^1].canSearch:
+    e.buffer.write(2, yoffset + 7, "Press ", fgYellow, "/", fgWhite, " to search")
 
-proc handleUserInput(e: var App) =
+  e.buffer.drawHorizLine(2, e.tw - 3, yoffset + 8, doubleStyle = true)
+
+proc handleUserInputBrowseMode(e: var App) =
   var
     key = getKey()
     cpage = e.session.pages[^1]
@@ -70,6 +108,12 @@ proc handleUserInput(e: var App) =
     e.session.nextPage()
   of Key.P:
     e.session.prevPage()
+  of Key.Slash:
+    if cpage.canSearch:
+      e.inputField = ""
+      e.mode = AppMode.Search
+    else:
+      discard
   of Key.Up, Key.K:
     if cpage.entryPtr > 0:
       cpage.entryPtr -= 1
@@ -88,10 +132,42 @@ proc handleUserInput(e: var App) =
   else:
     discard
 
-proc renderSession(e: var App) =
+proc handleUserInputSearchMode(e: var App) =
+  var
+    key = getKey()
+    cpage = e.session.pages[^1]
+
+  case key
+  of Key.Escape:
+    e.mode = AppMode.Browse
+  of Key.None, Key.Slash:
+    discard
+  of Key.Space:
+    e.inputField = e.inputField & " "
+  of Key.Enter:
+    e.session.performSearch(e.inputField)
+    e.mode = AppMode.Browse
+  of Key.Backspace:
+    var inplen = e.inputField.len()
+    if inplen > 0:
+      e.inputField = e.inputField[0 ..^ 2]
+    else:
+      discard
+  else:
+    if ord(key) in 97 .. 122:
+      e.inputField = e.inputField & $key
+
+proc handleUserInput(e: var App) =
+  case e.mode
+  of AppMode.Browse:
+    e.handleUserInputBrowseMode()
+  of AppMode.Search:
+    e.handleUserInputSearchMode()
+
+proc renderSessionBrowseMode(e: var App) =
   var
     cpage = e.session.pages[^1]
-    yoffset = 7
+    yoffset = 8
 
   e.buffer.write(
     2, yoffset + 1, resetStyle, "Title: ", fgGreen, cpage.title, resetStyle
@@ -106,6 +182,31 @@ proc renderSession(e: var App) =
 proc updateWindowVars(e: var App) =
   e.th = terminalHeight()
   e.tw = terminalWidth()
+
+proc renderSessionSearchMode(e: var App) =
+  var
+    cpage = e.session.pages[^1]
+    yoffset = 8
+    new_tb = newTextBox(
+      e.inputField,
+      3,
+      yoffset + 3,
+      w = e.tw - 2,
+      color = fgBlack,
+      bgcolor = bgNone,
+      placeholder = "Search",
+    )
+
+  e.buffer.write(3, yoffset + 2, fgGreen, "Search:- ")
+  new_tb.caretIdx = e.inputField.len()
+  e.buffer.render(new_tb)
+
+proc renderSession(e: var App) =
+  case e.mode
+  of AppMode.Browse:
+    e.renderSessionBrowseMode()
+  of AppMode.Search:
+    e.renderSessionSearchMode()
 
 proc start*(e: var App) =
   while true:
