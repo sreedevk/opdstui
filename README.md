@@ -6,6 +6,9 @@ using zathura. I couldn't find a tool that offered a TUI interface to browser OP
 
 This project does not aim to implement the whole [OPDS specification](https://opds.io/).
 
+![demo](https://github.com/user-attachments/assets/3e726a23-554e-4fd7-974f-8e794d21ce66)
+
+
 ## Sources
 This project is hosted on
 - [Github](https://github.com/sreedevk/opdstui)  - `sreedevk/opdstui`
