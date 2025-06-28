@@ -1,0 +1,45 @@
+name: build opdstui
+
+on:
+  push:
+    tags: [ 'v*.*.*' ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install system dependencies
+      run: |
+        if [ "$RUNNER_OS" = "Linux" ]; then
+          sudo apt-get update
+          sudo apt-get install -y gcc git curl xz-utils
+        elif [ "$RUNNER_OS" = "macOS" ]; then
+          brew update
+          brew install gcc git curl xz
+        fi
+
+    - name: Install Nim
+      run: |
+        curl https://nim-lang.org/choosenim/init.sh -sSf | sh -s -- -y
+        echo "$HOME/.nimble/bin" >> $GITHUB_PATH
+
+    - name: Install dependencies
+      run: nimble install -y
+
+    - name: Compile project
+      run: nim c -d:release --opt:speed -d:ssl --threads:on --out:bin/opdstui src/opdstui.nim
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ runner.os }}-binary
+        path: |
+          bin/*
+          nimble-out/*
