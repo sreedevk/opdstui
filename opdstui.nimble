@@ -1,6 +1,6 @@
 # Package
 
-version = "0.1.1"
+version = "0.1.4"
 author = "sreedevk"
 description = "tui interface for browsing opds catalogs"
 license = "MIT"

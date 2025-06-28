@@ -43,7 +43,7 @@ git clone https://github.com/sreedev/opdstui
 cd opdstui
 
 # (optional) switch to the latest version
-git checkout v0.1.2
+git checkout v0.1.4
 
 # run make to ensure that you're able to build the tool first
 make 
@@ -55,7 +55,7 @@ sudo make install
 ## Usage
 
 ```
-OPDS TUI Browser v0.1.2
+OPDS TUI Browser v0.1.4
 Author: Sreedev Kodichath <sreedev@icloud.com>
 OPDS Feed TUI Browser
 

@@ -7,7 +7,7 @@ proc parseArgs(): Table[string, string] =
     programName: "opdstui",
     fullName: "OPDS TUI Browser",
     description: "OPDS Feed TUI Browser",
-    version: "0.1.1",
+    version: "0.1.4",
     author: "Sreedev K <sreedev@icloud.com>")
 
   parser.addSwitchArgument(shortName="-g", longName="--generate-conf", help="generate & store configuration", default = false)
