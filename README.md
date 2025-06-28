@@ -8,8 +8,8 @@ This project does not aim to implement the whole [OPDS specification](https://op
 
 ## Sources
 This project is hosted on
-- [Github](https://github.com/sreedevk/opdstui) - [sreedevk/opdstui](https://github.com/sreedevk/opdstui)
-- [Radicle](https://radicle.xyz/) - `rad:z4QBXcbUuZuJKkN57ysdWbr5iGGZK`
+- [Github](https://github.com/sreedevk/opdstui)  - `sreedevk/opdstui`
+- [Radicle](https://code.devtechnica.com/rad:z4QBXcbUuZuJKkN57ysdWbr5iGGZK) - `rad:z4QBXcbUuZuJKkN57ysdWbr5iGGZK`
 
 ## Pre Requisites
 #### Runtime Dependencies
