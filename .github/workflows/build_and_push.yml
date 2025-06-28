@@ -36,13 +36,69 @@ jobs:
     - name: Compile
       run: nim c -d:release --opt:speed -d:ssl --threads:on --out:bin/opdstui src/opdstui.nim
 
+    - name: Rename binary with OS and architecture
+      run: |
+        mkdir -p release-artifacts
+        if [ "$RUNNER_OS" = "Linux" ]; then
+          cp bin/opdstui release-artifacts/opdstui-${{ runner.os }}-x86_64
+        elif [ "$RUNNER_OS" = "macOS" ]; then
+          cp bin/opdstui release-artifacts/opdstui-${{ runner.os }}-arm64
+
     - name: Upload Binary
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ runner.os }}-binary
-        path: |
-          bin/*
-          nimble-out/*
+        name: binaries
+        path: release-artifacts/*
         compression-level: 0
         if-no-files-found: error
         overwrite: true
+
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+          pattern: binaries
+          merge-multiple: true
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          body: |
+            Automated release for ${{ github.ref_name }}
+            - Compiled for Linux x86_64 and macOS x86_64
+            - Built with Nim ${{ steps.nim_version.outputs.version }}
+
+      - name: Upload Release Assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release-artifacts/
+          asset_name: ${{ github.ref_name }}-binaries.zip
+
+      - name: Upload Binaries
+        run: |
+          for binary in release-artifacts/*; do
+            asset_name=$(basename "$binary")
+            echo "Uploading $asset_name"
+            curl -sSL \
+              -X POST \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Content-Type: $(file -b --mime-type "$binary")" \
+              "${{ steps.create_release.outputs.upload_url }}?name=$asset_name" \
+              --data-binary @"$binary"
+          done
