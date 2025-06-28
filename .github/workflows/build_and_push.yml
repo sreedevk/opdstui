@@ -39,10 +39,18 @@ jobs:
     - name: Rename binary with OS and architecture
       run: |
         mkdir -p release-artifacts
+        
         if [ "$RUNNER_OS" = "Linux" ]; then
-          cp bin/opdstui release-artifacts/opdstui-${{ runner.os }}-x86_64
+          ARCH="x86_64"
         elif [ "$RUNNER_OS" = "macOS" ]; then
-          cp bin/opdstui release-artifacts/opdstui-${{ runner.os }}-arm64
+          if [ "$(uname -m)" = "arm64" ]; then
+            ARCH="arm64"
+          else
+            ARCH="x86_64"
+          fi
+        fi
+        
+        cp bin/opdstui "release-artifacts/opdstui-${RUNNER_OS}-${ARCH}"
 
     - name: Upload Binary
       uses: actions/upload-artifact@v4
