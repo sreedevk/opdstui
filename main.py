@@ -1,7 +1,11 @@
-import opdstui.tui as tui
+import os
+
+from opdstui.application import Application
+
 
 def main():
-    print(tui.hello())
-    
+    Application(os.getenv("OPDS_URL"))
+
+
 if __name__ == "__main__":
     main()
