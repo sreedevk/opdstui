@@ -4,7 +4,8 @@ from opdstui.application import Application
 
 
 def main():
-    Application(os.getenv("OPDS_URL"))
+    app = Application()
+    app.run()
 
 
 if __name__ == "__main__":
