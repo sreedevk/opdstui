@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2005/Atom">
+  <updated>2026-03-19T11:01:35</updated>
+  <id>root</id>
+  <title>Kavita</title>
+  <icon>/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/favicon</icon>
+  <author>
+    <name>Kavita</name>
+    <uri>https://www.kavitareader.com</uri>
+  </author>
+  <link rel="self" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/" />
+  <link rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954" />
+  <link rel="search" type="application/opensearchdescription+xml" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/search" />
+  <entry>
+    <updated>2026-03-19T11:01:35</updated>
+    <id>onDeck</id>
+    <title>On Deck</title>
+    <content type="text">Browse On Deck</content>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/on-deck" />
+  </entry>
+  <entry>
+    <updated>2026-03-19T11:01:35</updated>
+    <id>recentlyUpdated</id>
+    <title>Recently Updated</title>
+    <content type="text">Browse Recently Updated</content>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/recently-updated" />
+  </entry>
+  <entry>
+    <updated>2026-03-19T11:01:35</updated>
+    <id>recentlyAdded</id>
+    <title>Recently Added</title>
+    <content type="text">Browse Recently Added</content>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/recently-added" />
+  </entry>
+  <entry>
+    <updated>2026-03-19T11:01:35</updated>
+    <id>readingList</id>
+    <title>Reading Lists</title>
+    <content type="text">Browse by Reading Lists</content>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/reading-list" />
+  </entry>
+  <entry>
+    <updated>2026-03-19T11:01:35</updated>
+    <id>wantToRead</id>
+    <title>Want to Read</title>
+    <content type="text">Browse Want to Read</content>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/want-to-read" />
+  </entry>
+  <entry>
+    <updated>2026-03-19T11:01:35</updated>
+    <id>allLibraries</id>
+    <title>All Libraries</title>
+    <content type="text">Browse by Libraries</content>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/libraries" />
+  </entry>
+  <entry>
+    <updated>2026-03-19T11:01:35</updated>
+    <id>allCollections</id>
+    <title>All Collections</title>
+    <content type="text">Browse by Collections</content>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/collections" />
+  </entry>
+</feed>

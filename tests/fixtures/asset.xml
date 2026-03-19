@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2005/Atom">
+  <updated>2026-03-19T11:00:21</updated>
+  <id>series-1557</id>
+  <title>The Moosewood Cookbook: 40th Anniversary Edition - Storyline</title>
+  <icon>/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/favicon</icon>
+  <author>
+    <name>Kavita</name>
+    <uri>https://www.kavitareader.com</uri>
+  </author>
+  <link rel="self" type="application/atom+xml;profile=opds-catalog;kind=acquisition" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/series/1557" />
+  <link rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954" />
+  <link rel="search" type="application/opensearchdescription+xml" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/search" />
+  <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=1557&amp;apiKey=0993c2af-f7bc-44d3-9929-138866db7954" />
+  <entry>
+    <updated>2026-03-19T11:00:21</updated>
+    <id>6178</id>
+    <title>⭘ The Moosewood Cookbook: 40th Anniversary Edition - The Moosewood Cookbook: 40th Anniversary Edition</title>
+    <summary>File Type: epub+zip - 13.36 MB</summary>
+    <extent xmlns="http://purl.org/dc/terms/">13.36 MB</extent>
+    <format xmlns="http://purl.org/dc/terms/format">Epub</format>
+    <content type="text">application/epub+zip</content>
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/chapter-cover?chapterId=5737&amp;apiKey=0993c2af-f7bc-44d3-9929-138866db7954" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/chapter-cover?chapterId=5737&amp;apiKey=0993c2af-f7bc-44d3-9929-138866db7954" />
+    <link rel="http://opds-spec.org/acquisition/open-access" type="application/epub+zip" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/series/1557/volume/1839/chapter/5737/download/The%20Moosewood%20Cookbook%2040th%20Anniversary%20Edition%20-%20Mollie%20Katzen%20%282014%29.epub" title="The%20Moosewood%20Cookbook%2040th%20Anniversary%20Edition%20-%20Mollie%20Katzen%20%282014%29.epub" p5:count="21" xmlns:p5="http://vaemendis.net/opds-pse/ns" />
+    <author>
+      <name>Mollie Katzen</name>
+      <uri>http://opds-spec.org/author/587</uri>
+    </author>
+  </entry>
+</feed>
