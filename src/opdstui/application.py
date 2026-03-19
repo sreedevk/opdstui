@@ -9,9 +9,6 @@ from .page import Page
 
 class Application(App):
     BORDER_TITLE = "OPDS TUI"
-    BINDINGS = [
-        Binding("q", "quit", "quit", show=True),
-    ]
 
     def on_mount(self):
         url = urlparse(os.getenv("OPDS_URL"))

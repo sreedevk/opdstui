@@ -17,7 +17,7 @@ NAMESPACE = {"atom": "http://www.w3.org/2005/Atom"}
 
 class Page(Screen):
     BINDINGS = [
-        ("escape", "app.pop_screen", "Pop screen"),
+        ("q", "app.pop_screen", "Pop screen"),
     ]
 
     def on_list_view_selected(self, event: ListView.Selected):
