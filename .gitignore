@@ -7,6 +7,7 @@ wheels/
 *.egg-info
 /tmp/**
 !/tmp/.keep
+*.pyz
 
 # Virtual environments
 .venv
