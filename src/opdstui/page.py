@@ -5,6 +5,7 @@ import requests
 
 from .link import Link
 from .nav import Nav
+from .debug import Debug
 
 from textual.screen import Screen
 from textual.widgets import Footer, Header, ListView
@@ -31,6 +32,8 @@ class Page(Screen):
         self.subsections: list[Link] = []
 
         req = requests.get(urljoin(self.url, self.path))
+        self.debug = {"url": self.path}
+
         root = ET.fromstring(req.text)
 
         subsections = root.findall("atom:entry", NAMESPACE)
@@ -53,4 +56,5 @@ class Page(Screen):
     def compose(self):
         yield Header()
         yield Nav(self.subsections)
+        yield Debug(self.debug)
         yield Footer()
