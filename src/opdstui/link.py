@@ -1,5 +1,5 @@
 class Link:
-    def __init__(self, text: str, url: str, rel: str):
+    def __init__(self, text: str, path: str, rel: str):
         self.text = text
-        self.url = url
+        self.path = path
         self.rel = rel

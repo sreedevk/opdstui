@@ -1,7 +1,5 @@
-import xml.etree.ElementTree as ET
-
-import requests
 from .link import Link
+
 from textual.widgets import ListView, ListItem, Label
 from textual.binding import Binding
 
@@ -19,9 +17,6 @@ class Nav(ListView):
         padding: 2
     }
     """
-
-    def selected_subsection(self) -> Link:
-        return self.subsections[self.index]
 
     def __init__(self, subsections: list[Link]):
         self.subsections = subsections

@@ -1,11 +1,15 @@
-import requests
 import xml.etree.ElementTree as ET
+
+import os
+import requests
 
 from .link import Link
 from .nav import Nav
 
 from textual.screen import Screen
-from textual.widgets import Footer, Header
+from textual.widgets import Footer, Header, ListView
+from urllib.parse import urljoin
+
 
 NAMESPACE = {"atom": "http://www.w3.org/2005/Atom"}
 
@@ -15,13 +19,18 @@ class Page(Screen):
         ("escape", "app.pop_screen", "Pop screen"),
     ]
 
+    def on_list_view_selected(self, event: ListView.Selected):
+        self.app.push_screen(
+            Page(self.url, self.subsections[event.index].path),
+        )
+
     def __init__(self, url, path):
         self.url = url
         self.path = path
         self.links: list[Link] = []
         self.subsections: list[Link] = []
 
-        req = requests.get(self.url + self.path)
+        req = requests.get(urljoin(self.url, self.path))
         root = ET.fromstring(req.text)
 
         subsections = root.findall("atom:entry", NAMESPACE)
