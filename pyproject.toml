@@ -1,6 +1,6 @@
 [project]
 name = "opdstui"
-version = "0.1.0"
+version = "0.2.0"
 description = "opds tui reader"
 readme = "README.md"
 authors = [{ name = "sreedevk", email = "sreedev@icloud.com" }]
