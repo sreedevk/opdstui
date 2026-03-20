@@ -1,7 +1,7 @@
-from .link import Link
-
-from textual.widgets import ListView, ListItem, Label
 from textual.binding import Binding
+from textual.widgets import ListView, ListItem, Label
+
+from .entry import Entry
 
 NAMESPACE = {"atom": "http://www.w3.org/2005/Atom"}
 
@@ -13,16 +13,8 @@ class Nav(ListView):
     ]
 
     DEFAULT_CSS = """
-    Nav {
-        padding: 2
-    }
+        Nav { padding: 2 }
     """
 
-    def __init__(self, subsections: list[Link]):
-        self.subsections = subsections
-
-        list_subsections = [
-            ListItem(Label(subsection.text)) for subsection in subsections
-        ]
-
-        super().__init__(*list_subsections)
+    def __init__(self, entries: list[Entry]):
+        super().__init__(*[ListItem(Label(entry.text)) for entry in entries])
