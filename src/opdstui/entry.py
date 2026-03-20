@@ -21,5 +21,15 @@ class Entry:
                 NAMESPACE,
             )
         ) is not None:
+            author = entry.find(".//atom:author", NAMESPACE)
             self.rel = "ebook"
             self.path = link.attrib["href"]
+            if author is not None:
+                self.details = {
+                    "author": {
+                        "name": author.find("atom:name", NAMESPACE).text,
+                        "uri": author.find("atom:uri", NAMESPACE).text,
+                    },
+                }
+            else:
+                self.details = {}

@@ -17,4 +17,7 @@ class Nav(ListView):
     """
 
     def __init__(self, entries: list[Entry]):
-        super().__init__(*[ListItem(Label(entry.text)) for entry in entries])
+        if len(entries) < 1:
+            super().__init__(*[ListItem(Label("No Entries"))])
+        else:
+            super().__init__(*[ListItem(Label(entry.text)) for entry in entries])
