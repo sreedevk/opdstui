@@ -24,6 +24,7 @@ class Page(Screen):
         ("q", "pop_or_quit", "Quit"),
         ("p", "paginate_prev", "Previous Page"),
         ("n", "paginate_next", "Next Page"),
+        ("o", "open_book", "Open Book"),
     ]
 
     def action_pop_or_quit(self) -> None:
@@ -31,6 +32,10 @@ class Page(Screen):
             self.app.pop_screen()
         else:
             self.app.exit()
+
+    def action_open_book(self):
+        if self.pagetype == "book":
+            self.launch_reader(urljoin(self.url, self.details.path))
 
     def on_list_view_selected(self, event: ListView.Selected):
         if len(self.entries) < 1:
@@ -69,12 +74,12 @@ class Page(Screen):
             self.set_pag_attrs(root)
             entries = root.findall(".//atom:entry", NAMESPACE)
             for entry in entries:
-                self.entries.append(Entry(entry))
+                self.entries.append(Entry(entry, root))
         else:
             entry = root.find(".//atom:entry", NAMESPACE)
             self.pagetype = "book"
             if entry:
-                self.details = Entry(entry)
+                self.details = Entry(entry, root)
             else:
                 self.details = {}
 

@@ -4,7 +4,7 @@ NAMESPACE = {"atom": "http://www.w3.org/2005/Atom"}
 
 
 class Entry:
-    def __init__(self, entry: ET):
+    def __init__(self, entry: ET, root: ET):
         title_node = entry.find("atom:title", NAMESPACE)
         self.text = title_node.text if title_node is not None else None
         self.rel = "unknown"
@@ -21,9 +21,10 @@ class Entry:
                 NAMESPACE,
             )
         ) is not None:
-            author = entry.find(".//atom:author", NAMESPACE)
+            author = root.find("atom:author", NAMESPACE)
             self.rel = "ebook"
             self.path = link.attrib["href"]
+            self.details = {}
             if author is not None:
                 self.details = {
                     "author": {
@@ -31,5 +32,3 @@ class Entry:
                         "uri": author.find("atom:uri", NAMESPACE).text,
                     },
                 }
-            else:
-                self.details = {}

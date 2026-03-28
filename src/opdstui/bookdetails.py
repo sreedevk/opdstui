@@ -17,7 +17,11 @@ class BookDetails(Markdown):
         super().__init__(self.content())
 
     def content(self):
+        author_line = ""
+        if (author := dig(self.book, "details", "author", "name")):
+            author_line = f"- Author: {author}"
+
         return f"""
-        ## {repr(dig(self.book, "text"))}
-        ## Author: {repr(dig(self.book, "details", "author", "name"))}
+        # {repr(dig(self.book, "text"))}
+        {author_line}
         """
