@@ -147,5 +147,5 @@ class Page(Screen):
             yield Nav(self.entries)
         else:
             yield BookDetails(self.details)
-        yield Label(content=repr(self.debug))
+        # yield Label(content=repr(self.debug))
         yield Footer()
