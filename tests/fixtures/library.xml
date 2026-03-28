@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2005/Atom">
-  <updated>2026-03-19T11:20:36</updated>
-  <id>want-to-read</id>
-  <title>Want to Read</title>
+  <updated>2026-03-28T10:43:20</updated>
+  <id>on-deck</id>
+  <title>On Deck</title>
   <icon>/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/favicon</icon>
   <author>
     <name>Kavita</name>
@@ -11,16 +11,16 @@
   <totalResults xmlns="http://a9.com/-/spec/opensearch/1.1/">1</totalResults>
   <itemsPerPage xmlns="http://a9.com/-/spec/opensearch/1.1/">20</itemsPerPage>
   <startIndex xmlns="http://a9.com/-/spec/opensearch/1.1/">1</startIndex>
-  <link rel="self" type="application/atom+xml;profile=opds-catalog;kind=acquisition" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/want-to-read?pageNumber=1" />
+  <link rel="self" type="application/atom+xml;profile=opds-catalog;kind=acquisition" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/on-deck?pageNumber=1" />
   <link rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954" />
   <link rel="search" type="application/opensearchdescription+xml" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/search" />
   <entry>
-    <updated>2026-03-19T11:20:36</updated>
-    <id>853</id>
-    <title>Pro Git</title>
+    <updated>2026-03-28T10:43:20</updated>
+    <id>831</id>
+    <title>Rust for Rusteaceans</title>
     <summary>Format: Pdf</summary>
-    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/series/853" />
-    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=853&amp;apiKey=0993c2af-f7bc-44d3-9929-138866db7954" />
-    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=853&amp;apiKey=0993c2af-f7bc-44d3-9929-138866db7954" />
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/0993c2af-f7bc-44d3-9929-138866db7954/series/831" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=831&amp;apiKey=0993c2af-f7bc-44d3-9929-138866db7954" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=831&amp;apiKey=0993c2af-f7bc-44d3-9929-138866db7954" />
   </entry>
-</feed>
+</feed>⏎

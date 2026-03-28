@@ -2,22 +2,28 @@ import os
 import requests
 import subprocess
 import xml.etree.ElementTree as ET
+import math
 
 from .entry import Entry
 from .nav import Nav
 from .bookdetails import BookDetails
 
-from urllib.parse import urljoin
 from textual.screen import Screen
 from textual.widgets import Footer, Header, ListView, Label
+from urllib.parse import urlparse, parse_qs, urljoin, urlunparse, urlencode
 
 
-NAMESPACE = {"atom": "http://www.w3.org/2005/Atom"}
+NAMESPACE = {
+    "atom": "http://www.w3.org/2005/Atom",
+    "opensearch": "http://a9.com/-/spec/opensearch/1.1/",
+}
 
 
 class Page(Screen):
     BINDINGS = [
         ("q", "pop_or_quit", "Quit"),
+        ("p", "paginate_prev", "Previous Page"),
+        ("n", "paginate_next", "Next Page"),
     ]
 
     def action_pop_or_quit(self) -> None:
@@ -60,6 +66,7 @@ class Page(Screen):
         root = ET.fromstring(req.text)
         if self.is_listing(root):
             self.pagetype = "listing"
+            self.set_pag_attrs(root)
             entries = root.findall(".//atom:entry", NAMESPACE)
             for entry in entries:
                 self.entries.append(Entry(entry))
@@ -72,6 +79,51 @@ class Page(Screen):
                 self.details = {}
 
         super().__init__()
+
+    def action_paginate_prev(self):
+        if self.current_page <= 1:
+            return
+
+        parseduri = urlparse(self.path)
+        params = parse_qs(parseduri.query)
+        params["pageNumber"] = self.current_page - 1
+        next_path = urlunparse(parseduri._replace(query=urlencode(params, doseq=True)))
+
+        self.app.push_screen(
+            Page(self.url, next_path),
+        )
+
+    def action_paginate_next(self):
+        if self.current_page >= self.page_count:
+            return
+
+        parseduri = urlparse(self.path)
+        params = parse_qs(parseduri.query)
+        params["pageNumber"] = self.current_page + 1
+        next_path = urlunparse(parseduri._replace(query=urlencode(params, doseq=True)))
+
+        self.app.push_screen(
+            Page(self.url, next_path),
+        )
+
+    def set_pag_attrs(self, page_root):
+        self.current_page = 1
+        self.page_count = 1
+
+        total_results_node = page_root.find(".//opensearch:totalResults", NAMESPACE)
+        items_per_page_node = page_root.find(".//opensearch:itemsPerPage", NAMESPACE)
+        if total_results_node is None or items_per_page_node is None:
+            return
+
+        total_items = int(total_results_node.text[0])
+        items_per_page = int(items_per_page_node.text[0])
+        page_count = math.ceil(total_items / items_per_page)
+
+        if page_count > 1:
+            self_ref_node = page_root.find(".//atom:link[@rel='self']", NAMESPACE)
+            current_link = parse_qs(urlparse(self_ref_node.attrib["href"]).query)
+            self.current_page = int(current_link["pageNumber"][0])
+            self.page_count = page_count
 
     def is_listing(self, node) -> bool:
         entries = node.findall(".//atom:entry", NAMESPACE)
@@ -89,6 +141,7 @@ class Page(Screen):
         return True
 
     def compose(self):
+        self.debug = self.page_count
         yield Header()
         if self.pagetype == "listing":
             yield Nav(self.entries)
