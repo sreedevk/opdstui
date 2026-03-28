@@ -4,5 +4,7 @@ This project aims to provide an easy way to navigate OPDS catalogs through a sim
 Opdstui also enables you to open books served via opds catalogs using a locally installed text editor
 like Zathura.
 
-## Caveats
-This project is a work in progress, and as such, opdstui has not been packaged for distribution yet.
+## Install
+```
+curl -fsSL https://raw.githubusercontent.com/sreedevk/opdstui/main/install.sh | bash
+```
