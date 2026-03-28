@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install shiv
+        run: pip install shiv
+
+      - name: Build .pyz
+        run: |
+          shiv -o opdstui.pyz -e 'opdstui.cli:main' .
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: opdstui.pyz
