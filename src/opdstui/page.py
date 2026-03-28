@@ -141,7 +141,6 @@ class Page(Screen):
         return True
 
     def compose(self):
-        self.debug = self.page_count
         yield Header()
         if self.pagetype == "listing":
             yield Nav(self.entries)
