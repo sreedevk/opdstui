@@ -4,6 +4,11 @@ This project aims to provide an easy way to navigate OPDS catalogs through a sim
 Opdstui also enables you to open books served via opds catalogs using a locally installed text editor
 like Zathura.
 
+## Demo 
+https://github.com/user-attachments/assets/7c38e339-d616-40d3-bb25-f527e3b9ebea
+
+
+
 ## Dependencies
 ### Required
 - [Python >= v3.12](https://www.python.org/downloads/)
